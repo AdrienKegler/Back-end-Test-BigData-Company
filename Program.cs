@@ -14,6 +14,8 @@ namespace Back_end_Test_BigData_Company
             Page rootPage = new Page(url);
 
             rootPage.dig(depth);
+
+            Console.WriteLine("Here is the total of non white-space chars among all the paragraphs among all crawled pages : " + rootPage.getParagraphSizeRecurs());
         }
     }
 }

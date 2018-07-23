@@ -14,6 +14,7 @@ namespace Back_end_Test_BigData_Company
         public string url { get; set; }
         public uint depth { get; set; }
         private String htmlCode { get; set; }
+        private uint paragraphSize { get; set; }
         public List<Page> childrenList { get; set; }
 
 
@@ -25,6 +26,7 @@ namespace Back_end_Test_BigData_Company
             this.depth = depth;
             // this.htmlCode = "<!DOCTYPE html><html><head><title>This is the title</title></head><body><a href=\"link 1\"></a><a href=\"link 2\"></a>	<a href=\"link 3\"></a><a href=\"link 4\"></a><a href=\"link 5\"></a><a href=\"link 6\"></a><p>Text 1</p><p>Text 2</p><p>Text 3</p><p>Text 4</p><p>Text 5</p><p>Text 6</p><p>Text 7</p></body></html>";
             this.htmlCode = this.getHTMLCode();
+            setParagraphSize();
         }
 
 
@@ -79,6 +81,31 @@ namespace Back_end_Test_BigData_Company
             return data;
         }
 
+        private void setParagraphSize()
+        {
+            MatchCollection matches = Regex.Matches(this.htmlCode, "<p.*?>(.*?)</p>");
+
+            Console.WriteLine("Here is the list of page content found on " + this.url);
+
+            String paragraphsChain = "";
+
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
+                {
+                    String paragraph = m.Groups[1].Value;
+                    Console.WriteLine(paragraph);
+                    paragraphsChain += paragraph;
+                    // removing all whitespaces
+                    paragraphsChain = Regex.Replace(paragraphsChain, @"\s+", "");
+                    this.paragraphSize = (uint)paragraphsChain.ToCharArray().Length;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nothing found");
+            }
+        }
 
         public void dig(uint maxDepth)
         {
@@ -95,12 +122,13 @@ namespace Back_end_Test_BigData_Company
             }
         }
 
-
         private void setChildrenList()
         {
-            MatchCollection matches = Regex.Matches(this.htmlCode, "(<a.*?>.*?</a>)");
+            // Some space between each Pages so it's prettier
+            for (int i = 0; i < 3; i++)
+                Console.WriteLine("");
 
-            Console.WriteLine("Here is the list of the new pages found from " + this.url);
+            MatchCollection matches = Regex.Matches(this.htmlCode, "(<a.*?>.*?</a>)");
 
             if (matches.Count > 0)
             {
@@ -126,15 +154,27 @@ namespace Back_end_Test_BigData_Company
                         }
                         link = domainName + link;
                     }
+                    Console.WriteLine(link + " has been discovered from " + this.url);
                     Page newChildren = new Page(link, this.depth + 1);
                     this.childrenList.Add(newChildren);
-                    Console.WriteLine(link);
 
+                    // Some space between each Pages so it's prettier
+                    for (int i = 0; i < 3; i++)
+                        Console.WriteLine("");
                 }
             }
-            // Some space between each Pages so it's prettier
-            for (int i = 0; i < 3; i++)
-                Console.WriteLine("");
+        }
+
+        public uint getParagraphSizeRecurs()
+        {
+            uint totalParagraphSize = this.paragraphSize;
+
+            foreach (Page child in childrenList)
+            {
+                totalParagraphSize += child.getParagraphSizeRecurs();
+            }
+
+            return totalParagraphSize;
         }
     }
 }
