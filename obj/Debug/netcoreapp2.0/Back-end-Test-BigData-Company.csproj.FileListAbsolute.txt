@@ -1,0 +1,11 @@
+D:\wampUE\www\Back-end-Test-BigData-Company\bin\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.deps.json
+D:\wampUE\www\Back-end-Test-BigData-Company\bin\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.runtimeconfig.json
+D:\wampUE\www\Back-end-Test-BigData-Company\bin\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.runtimeconfig.dev.json
+D:\wampUE\www\Back-end-Test-BigData-Company\bin\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.dll
+D:\wampUE\www\Back-end-Test-BigData-Company\bin\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.pdb
+D:\wampUE\www\Back-end-Test-BigData-Company\obj\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.csprojResolveAssemblyReference.cache
+D:\wampUE\www\Back-end-Test-BigData-Company\obj\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.csproj.CoreCompileInputs.cache
+D:\wampUE\www\Back-end-Test-BigData-Company\obj\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.AssemblyInfoInputs.cache
+D:\wampUE\www\Back-end-Test-BigData-Company\obj\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.AssemblyInfo.cs
+D:\wampUE\www\Back-end-Test-BigData-Company\obj\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.dll
+D:\wampUE\www\Back-end-Test-BigData-Company\obj\Debug\netcoreapp2.0\Back-end-Test-BigData-Company.pdb
