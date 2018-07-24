@@ -24,8 +24,17 @@ namespace Back_end_Test_BigData_Company
             childrenList = new List<Page>();
             this.url = url;
             this.depth = depth;
-            // this.htmlCode = "<!DOCTYPE html><html><head><title>This is the title</title></head><body><a href=\"link 1\"></a><a href=\"link 2\"></a>	<a href=\"link 3\"></a><a href=\"link 4\"></a><a href=\"link 5\"></a><a href=\"link 6\"></a><p>Text 1</p><p>Text 2</p><p>Text 3</p><p>Text 4</p><p>Text 5</p><p>Text 6</p><p>Text 7</p></body></html>";
-            this.htmlCode = this.getHTMLCode();
+            // Below is a boolean
+            bool realNet = true;
+            if (realNet)
+            {
+                this.htmlCode = this.getHTMLCode();
+            }
+            else
+            {
+                this.htmlCode = "<!DOCTYPE html><html><head><title>This is the title</title></head><body><a href=\"link 1\"></a><a href=\"link 2\"></a>	<a href=\"link 3\"></a><a href=\"link 4\"></a><a href=\"link 5\"></a><a href=\"link 6\"></a><p>Text 1</p><p>Text 2</p><p>Text 3</p><p>Text 4</p><p>Text 5</p><p>Text 6</p><p>Text 7</p></body></html>";
+            }
+
             setParagraphSize();
         }
 
@@ -137,30 +146,33 @@ namespace Back_end_Test_BigData_Company
                     String tag = m.Groups[0].Value;
                     // Matches the simple/double quote just after href then matches the following chars until meeting the string delimiter (simple/double quote LIKE the first match)
                     String link = Regex.Match(tag, @"<a.*?href=([""'])(.*?)\1").Groups[2].Value;
-                    if (!link.StartsWith("http")) // handeling relative paths
+                    if (link.Length > 0)
                     {
-                        String domainName = this.url.EndsWith("/") ? this.url.Remove(this.url.Length - 1) : this.url;
-                        domainName += "/";
-                        switch (link.ToCharArray()[0])
+                        if (!link.StartsWith("http")) // handeling relative paths
                         {
-                            case '/':
-                                link.Remove(0, 1);
-                                break;
-                            case '#':
-                                domainName.Remove(0, 1);
-                                break;
-                            default:
-                                break;
+                            String domainName = this.url.EndsWith("/") ? this.url.Remove(this.url.Length - 1) : this.url;
+                            domainName += "/";
+                            switch (link.ToCharArray()[0])
+                            {
+                                case '/':
+                                    link.Remove(0, 1);
+                                    break;
+                                case '#':
+                                    domainName.Remove(0, 1);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            link = domainName + link;
                         }
-                        link = domainName + link;
-                    }
-                    Console.WriteLine(link + " has been discovered from " + this.url);
-                    Page newChildren = new Page(link, this.depth + 1);
-                    this.childrenList.Add(newChildren);
+                        Console.WriteLine(link + " has been discovered from " + this.url);
+                        Page newChildren = new Page(link, this.depth + 1);
+                        this.childrenList.Add(newChildren);
 
-                    // Some space between each Pages so it's prettier
-                    for (int i = 0; i < 3; i++)
-                        Console.WriteLine("");
+                        // Some space between each Pages so it's prettier
+                        for (int i = 0; i < 3; i++)
+                            Console.WriteLine("");
+                    }
                 }
             }
         }
@@ -175,6 +187,16 @@ namespace Back_end_Test_BigData_Company
             }
 
             return totalParagraphSize;
+        }
+
+        public uint famillySize()
+        {
+            uint size = 1;
+            foreach (Page child in childrenList)
+            {
+                size += child.famillySize();
+            }
+            return size;
         }
     }
 }
